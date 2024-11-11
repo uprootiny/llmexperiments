@@ -1,0 +1,42 @@
+version: "3"
+
+tasks:
+  generate_code:
+    desc: "Generate code for a specific task"
+    cmds:
+      - ./generate_code.sh "Implement the GenerateEmbedding function that converts input text into vector embeddings."
+
+  iterate:
+    desc: "Run an iterative development cycle"
+    cmds:
+      - task generate_code
+      - task test
+      - task validate_and_commit
+
+  plan:
+    desc: "Generate a plan or roadmap"
+    cmds:
+      - echo "Generating project roadmap..."
+      - ./ollama.curl.sh "Generate a comprehensive project roadmap for building and testing the GenerateEmbedding function."
+
+  test:
+    desc: "Run tests"
+    cmds:
+      - go test ./... > logs/test_output.log 2>&1
+      - if [ $? -eq 0 ]; then echo "Tests passed."; else echo "Tests failed. Check logs/test_output.log for details."; fi
+
+  expand_test_coverage:
+    desc: "Expand test coverage"
+    cmds:
+      - ./generate_code.sh "Generate comprehensive unit tests for the existing code in src/."
+
+  confabulate_mission_statement:
+    desc: "Create a mission statement"
+    cmds:
+      - ./ollama.curl.sh "Draft a mission statement that reflects the project's goals and development approach."
+
+  revise:
+    desc: "Revise prompt based on feedback"
+    cmds:
+      - ./scripts/revise_prompt.sh "$(cat current_task.txt)"
+
